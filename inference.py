@@ -137,7 +137,11 @@ class ExactInference(InferenceModule):
         
     "*** YOUR CODE HERE ***"
     self.beliefs = allPossible
-    
+
+    print "noisydistance=",noisyDistance
+    print "emissionModel=",emissionModel
+    print "pacmanPosition=",pacmanPosition
+
   def elapseTime(self, gameState):
     """
     Update self.beliefs in response to a time step passing from the current state.
