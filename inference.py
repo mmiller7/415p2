@@ -135,13 +135,22 @@ class ExactInference(InferenceModule):
       #if emissionModel[trueDistance] > 0: allPossible[p] = 1.0
       """Reset possible locations of the ghost to the ones calulated based on sonar feedback."""
       if emissionModel[trueDistance] > 0: allPossible[p] = emissionModel[trueDistance]
+
+    """This is the P(a|b)=P(b|a)*P(a) thingy"""
+    for p in self.legalPositions:
+      allPossible[p]=allPossible[p]*self.beliefs[p]
+
+    """We still need to normalize"""
     allPossible.normalize()
         
     "*** YOUR CODE HERE ***"
+    """It seems to already deal with ghosts when they're eaten so we don't need
+    to change anything else, just store the thing"""
     self.beliefs = allPossible
+    print "self.beliefs=",self.beliefs
     """Put the ghost in jail if pacman catches him!"""
 
-    #print "noisydistance=",noisyDistance
+    print "noisydistance=",noisyDistance
     #print "emissionModel=",emissionModel
     #print "pacmanPosition=",pacmanPosition
     #print "legal positions are:  ",self.legalPositions
