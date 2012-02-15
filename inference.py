@@ -136,7 +136,12 @@ class ExactInference(InferenceModule):
       """Reset possible locations of the ghost to the ones calulated based on sonar feedback."""
       if emissionModel[trueDistance] > 0: allPossible[p] = emissionModel[trueDistance]
 
-    """This is the P(a|b)=P(b|a)*P(a) thingy"""
+    """
+    This is the P(a|b)=P(b|a)*P(a) thingy
+    self.legalPositions seems to be the list of things to iterate through
+    self.beliefs is the old set of beliefs (still, until we save at the end)
+    allPossible is the new set of beliefs to incorperate
+    """
     for p in self.legalPositions:
       allPossible[p]=allPossible[p]*self.beliefs[p]
 
@@ -147,10 +152,10 @@ class ExactInference(InferenceModule):
     """It seems to already deal with ghosts when they're eaten so we don't need
     to change anything else, just store the thing"""
     self.beliefs = allPossible
-    print "self.beliefs=",self.beliefs
     """Put the ghost in jail if pacman catches him!"""
 
-    print "noisydistance=",noisyDistance
+    #print "self.beliefs=",self.beliefs
+    #print "noisydistance=",noisyDistance
     #print "emissionModel=",emissionModel
     #print "pacmanPosition=",pacmanPosition
     #print "legal positions are:  ",self.legalPositions
