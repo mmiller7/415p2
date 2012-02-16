@@ -173,7 +173,33 @@ class ExactInference(InferenceModule):
     current position, use this line of code:
 
       newPosDist = self.getPositionDistribution(self.setGhostPosition(gameState, oldPos))
+    """ 
+    #This is from the previous problem, just to get started
+    allPossible = util.Counter()
+    #This will loop through all the game board positions, as with the previous problem
+    for oldPos in self.legalPositions:
+      #For each position, do something with ghosts...
+      newPosDist = self.getPositionDistribution(self.setGhostPosition(gameState, oldPos))
+      """
+      Per some of the comments below, I feel like we should loop through the old beliefs
+      for each element of the newPosDist maybe multipy by the old belief and add to the
+      new allPossible thing
+      """
+      for newPos, prob in newPosDist.items():
+        """
+        Guessing newPos is the game board position like self.legalPositions is
+        and prob is the corrisponding probability for that position.  Should probably
+        mulitply this by the old probablity and add it to the new list to be normalized
 
+        I think this says "given the probability the ghost was at oldPos, multiply by
+        the probability it is at newPos and store that probability at newPos
+        """
+        allPossible[newPos]+=self.beliefs[oldPos]*prob
+
+    #We're going to have to normallize and save this at some point anyway
+    allPossible.normalize()
+    self.beliefs = allPossible
+    """
     Note that you may need to replace "oldPos" with the correct name
     of the variable that you have used to refer to the previous ghost
     position for which you are computing this distribution.
