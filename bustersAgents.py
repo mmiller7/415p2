@@ -108,4 +108,36 @@ class GreedyBustersAgent(BustersAgent):
                                         in enumerate(self.ghostBeliefs)
                                         if livingGhosts[i+1]]
     "*** YOUR CODE HERE ***"
+
+    moveDistance=-1 #a starting place, this will never be negative
+    moveAction=legal[0] #the corrisponding action for the shortest distance
+    #loop through positions
+    for action in legal:
+      #see how far we'd be from all the ghosts
+      for x in range(len(livingGhostPositionDistributions)):
+        #to store the most likely ghost
+        ghostPos=(0,0)
+        ghostProb=0
+        
+        #loop through ghost position to find the most likely position
+        for pos,prob in livingGhostPositionDistributions[x].items():
+          #find the most likely probability and position
+          if ghostProb < prob:
+            ghostProb=prob
+            ghostPos=pos
+
+        #Find the position so we can compare for the new position
+        successorPosition = Actions.getSuccessor(pacmanPosition, action)
+
+        #Find the distance
+        distance=self.distancer.getDistance(ghostPos, successorPosition)
+
+        #see if it's the shortest distance
+        if (distance < moveDistance) or (moveDistance==-1):
+          moveDistance=distance
+          moveAction=action
+    
+    #pick the closest ghost to chase and return the action
+    return moveAction
+
     util.raiseNotDefined()
